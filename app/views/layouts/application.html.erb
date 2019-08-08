@@ -10,11 +10,15 @@
     <%= javascript_include_tag 'application' %>
   </head>
 
-  <body>
-    <% if notice || alert %>
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
-    <% end %>
-    <%= yield %>
+  <body >
+    <div id="app">
+      <% if notice || alert %>
+        <p class="notice"><%= notice %></p>
+        <p class="alert"><%= alert %></p>
+      <% end %>
+      <b-container>
+        <%= yield %>
+      </b-container>
+    </div>
   </body>
 </html>
