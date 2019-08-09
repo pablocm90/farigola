@@ -1,7 +1,11 @@
-<h1 class="test">
-  Pages#Welcome
-</h1>
-<div>
-  <b-button variant="success" href="<%= new_user_registration_path %>">Crear un compte</b-button>
-  <b-button variant="success" href="<%= new_user_session_path %>">Connectar-se</b-button>
-</div>
+<% if !current_user.nil? %>
+  <b-button variant="success" href="<%= new_recipe_path %>">Crear una recepta</b-button>
+  <br />
+  <h1>Ultimes receptes</h1>
+  <%= render partial: "recipes/card", collection: @recipes, cached: true %>
+<% else %>
+  <div>
+    <b-button variant="success" href="<%= new_user_registration_path %>">Crear un compte</b-button>
+    <b-button variant="warning" href="<%= new_user_session_path %>">Connectar-se</b-button>
+  </div>
+<% end %>

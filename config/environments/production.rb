@@ -4,6 +4,7 @@ Rails.application.configure do
   # Code is not reloaded between requests.
   config.cache_classes = true
 
+
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
   # and those relying on copy on write to perform better.
@@ -31,6 +32,21 @@ Rails.application.configure do
 
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
+  CarrierWave.configure do |config|
+    config.fog_credentials = {
+      provider:              'AWS',                        # required
+      aws_access_key_id:     ENV['AWS_KEY_ID'],                        # required unless using use_iam_profile
+      aws_secret_access_key: ENV['AWS_SECRET_KEY'],                        # required unless using use_iam_profile
+      use_iam_profile:       true,                         # optional, defaults to false
+      region:                'eu-west-1',                  # optional, defaults to 'us-east-1'
+      # host:                  's3.example.com',             # optional, defaults to nil
+      # endpoint:              'https://s3.example.com:8080' # optional, defaults to nil
+    }
+    config.fog_directory  = 'farigola'                                      # required
+    config.fog_public     = false                                                 # optional, defaults to true
+    # config.fog_attributes = { cache_control: "public, max-age=#{365.days.to_i}" } # optional, defaults to {}
+  end
+
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = 'http://assets.example.com'
 
@@ -39,7 +55,7 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
-  config.active_storage.service = :local
+  config.active_storage.service = :fog
 
   # Mount Action Cable outside main process or domain
   # config.action_cable.mount_path = nil
